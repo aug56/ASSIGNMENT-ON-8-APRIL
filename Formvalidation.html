@@ -2,46 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Form Validation</title>
+  <title>Form Validation Example</title>
+  <style type="text/css">
+   body{
+    color: white;
+   }
+    form{
+      height: 350px;
+      width: 500px;
+      background: black;
+      border-radius: 5px;
+    }
+    .label{
+      font-size: 40px;
+    }
+    label{
+      font-size: 20px;
+      font-family: verdana;
+      font-weight: bold;
+    }
+    input{
+      height: 30px;
+      width: 80%;
+    }
+    button{
+      height: 30px;
+      width: 20%;
+      cursor: pointer;
+      border: none;
+      font-weight: bold;
+    }
+    button:hover{
+      background: black;
+      color: whitesmoke;
+      border: 1px solid white;
+      font-weight: bold;
+    }
+  </style>
 </head>
-<body>
+<body><center><br>
 
-  <h2>Form Validation Example</h2>
-  <form id="myForm">
-    <label for="name">Name (required):</label><br>
-    <input type="text" id="name" name="name" required><br><br>
+ 
+  <form id="myForm" autocomplete="off"><br><br><label class="label">Sample Form</label><br><br>
+    
+    <input type="text" id="name" name="name" required placeholder="Name (required):"><br><br>
 
-    <label for="email">Email (required):</label><br>
-    <input type="text" id="email" name="email" required><br><br>
+    <input type="text" id="email" name="email" required placeholder="Email (required):"><br><br>
 
-    <label for="age">Age (optional):</label><br>
-    <input type="text" id="age" name="age"><br><br>
+    <input type="text" id="age" name="age" placeholder="Age (optional):"><br><br>
 
     <button type="submit">Submit</button>
+
   </form>
 
   <script>
-    const form = document.getElementById('myForm');
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+      const inputs = this.querySelectorAll('input[type="text"][required]');
+      let allFilled = true;
 
-    form.addEventListener('submit', function(e) {
-      // Get all input fields inside the form
-      const inputs = form.querySelectorAll('input');
-
-      for (let i = 0; i < inputs.length; i++) {
-        const input = inputs[i];
-
-        // Check if input is required and of type text
-        if (input.hasAttribute('required') && input.type === 'text') {
-          if (input.value.trim() === '') {
-            alert(`Please fill in the required field: ${input.name}`);
-            input.focus();
-            e.preventDefault(); // Prevent form from submitting
-            return false;
-          }
+      inputs.forEach(function(input) {
+        if (input.value.trim() === '') {
+          alert(`Please fill in the required field: ${input.name}`);
+          input.focus();
+          allFilled = false;
+          event.preventDefault(); // Stop form from submitting
+          return; // Exit the loop early
         }
-      }
+      });
+
     });
   </script>
-
+</center>
 </body>
 </html>
